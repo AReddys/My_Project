@@ -1,14 +1,16 @@
 
-export function fetchApiData(result) {
-    return {
-        type: 'FETCH_API_DATA',
-        result
-    }
+
+export const ACTIONS =  {
+    FETCH_API_DATA: 'FETCH_API_DATA',
+    SET_SELECTED_ENTITY_ID: 'SET_SELECTED_ENTITY_ID',
 };
 
-export function setSelectedEntityId(entityId) {
-    return {
-        type: 'SET_SELECTED_ENTITY_ID',
-        entityId
-    }
-};
+export const fetchApiData = (result) => ({
+    type: ACTIONS.FETCH_API_DATA,
+    result
+});
+
+export const setSelectedEntityId = (entityId) => ({
+    type: ACTIONS.SET_SELECTED_ENTITY_ID,
+    entityId
+});

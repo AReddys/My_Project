@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const DetailsContainer = styled.div`
  display: flex;
@@ -30,36 +31,33 @@ const Info = styled.span`
 `;
 
 
-class DetailsPageLayout extends Component {
-  render() {
-    const { state: { apiData, selectedEntityId } } = this.props.location;
-    const selectedEntity = apiData.find(entity => entity.id === selectedEntityId)
-    const CompanyFullAddress = selectedEntity && `${selectedEntity.address} ${selectedEntity.province} ${selectedEntity.city} ${selectedEntity.postal_code}`;
-    return (
-      <DetailsContainer>
-        {selectedEntity && (
-          <>
-            <CompanyLogo src={selectedEntity.image} />
-            <DetailsWrapper>
-              <InfoWrapper>
-                <Label>Business Name:</Label>
-                <Info>{selectedEntity.company_name}</Info>
-              </InfoWrapper>
-              <InfoWrapper>
-                <Label>Address:</Label>
-                <Info>{CompanyFullAddress}</Info>
-              </InfoWrapper>
-              <InfoWrapper>
-                <Label>Website:</Label>
-                <Info>{selectedEntity.website}</Info>
-              </InfoWrapper>
-            </DetailsWrapper>
-          </>
-        )}
-      </DetailsContainer>
-
-    )
-  }
+export default function DetailsPageLayout({selectedEntity}) {
+  const CompanyFullAddress = selectedEntity && `${selectedEntity.address} ${selectedEntity.province} ${selectedEntity.city} ${selectedEntity.postal_code}`;
+  return (
+    <DetailsContainer>
+      {selectedEntity && (
+        <>
+          <CompanyLogo src={selectedEntity.image} />
+          <DetailsWrapper>
+            <InfoWrapper>
+              <Label>Business Name:</Label>
+              <Info>{selectedEntity.company_name}</Info>
+            </InfoWrapper>
+            <InfoWrapper>
+              <Label>Address:</Label>
+              <Info>{CompanyFullAddress}</Info>
+            </InfoWrapper>
+            <InfoWrapper>
+              <Label>Website:</Label>
+              <Info>{selectedEntity.website}</Info>
+            </InfoWrapper>
+          </DetailsWrapper>
+        </>
+      )}
+    </DetailsContainer>
+  )
 };
 
-export default DetailsPageLayout;
+DetailsPageLayout.propTypes = {
+  selectedEntity: PropTypes.object
+};

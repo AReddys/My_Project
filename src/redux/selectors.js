@@ -1,9 +1,9 @@
-// import { createSelector } from 'reselect';
+import { createSelector } from 'reselect';
 
-export function getApiData(state) {
-    return state.apiData;
-};
+export const getApiData = (state) => state.apiData;
 
-export function getSelectedEntityId(state) {
-    return state.selectedEntityId
-};
+export const getSelectedEntityId = (state) => state.selectedEntityId;
+
+export const getSelectedEntity = createSelector([getApiData, getSelectedEntityId], 
+    (data, selectedEntityId) => data && data.find(dataItem => dataItem.id === selectedEntityId)
+);

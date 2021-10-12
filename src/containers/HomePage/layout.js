@@ -1,41 +1,59 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
+import { createGlobalStyle } from 'styled-components';
 import { columns, apiEndPoint } from '../../utils/data';
+import PropTypes from 'prop-types';
 
-class HomePageLayout extends Component {
-    getTableRowProps = (state, rowInfo) => {
-        if (rowInfo && rowInfo.row) {
-            return {
-                onClick: e => {
-                    this.props.setSelectedEntityId(rowInfo.original.id);
-                    this.props.history.push({
-                        pathname: `/entities/${rowInfo.original.company_name}/${rowInfo.original.id}`,
-                        state: { apiData: this.props.apiData, selectedEntityId: rowInfo.original.id}
-                    })
-                },
-            };
-        } else {
-            return { style: {} };
-        }
+const GlobalStyle = createGlobalStyle`
+   .EntityTable .rt-tbody  .rt-tr-group .rt-tr {
+      &:hover {
+        background-color: #e6f5ff;
+      }
     }
-    componentDidMount() {
+`;
+
+export default function HomePageLayout({ fetchApiData, apiData, setSelectedEntityId }) {
+
+    useEffect(() => {
         axios({
             method: 'GET',
             url: apiEndPoint
         }).then(({ data }) => {
-            this.props.fetchApiData(data);
+            fetchApiData(data);
         })
-    }
-    render() {
-        return (
-            <div>
-                <ReactTable columns={columns} data={this.props.apiData} getTrProps={this.getTableRowProps} />
-            </div>
+    }, []);
 
-        )
-    }
+    const getTableRowProps = (state, rowInfo) => {
+        if (rowInfo && rowInfo.row) {
+            return {
+                onClick: e => setSelectedEntityId(rowInfo.original.id),
+            };
+        } else {
+            return { style: {} };
+        }
+    };
+
+    const getTheadProps = () => ({ style: { backgroundColor: '#07487a', color: '#FFFFFF', } });
+
+    return (
+        <>
+            <GlobalStyle />
+            <ReactTable
+                className="EntityTable"
+                columns={columns}
+                data={apiData}
+                getTrProps={getTableRowProps}
+                minRows={0}
+                getTheadProps={getTheadProps}
+            />
+        </>
+    )
 };
 
-export default HomePageLayout;
+HomePageLayout.propTypes = {
+    fetchApiData: PropTypes.func,
+    setSelectedEntityId: PropTypes.func,
+    apiData: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
+};

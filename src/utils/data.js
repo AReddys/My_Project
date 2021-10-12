@@ -1,38 +1,53 @@
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StyledLink = styled(Link)`
+  font-size: 14px;
+  border-left: 5px solid #fff;
+  color: #656565;
+  display: block;
+  background: #ffffff;
+  padding: 10px 6px 10px 5px;
+  text-decoration: none;
+`;
+
+const constructCustomCell = (rowData, cellValue)=> <StyledLink to={`entities/${rowData.company_name}/${rowData.id}`}>{cellValue}</StyledLink>
+
 export const columns = [
     {
         Header: 'Business Id',
         id: 'id',
-        accessor: 'id'
+        Cell: ({ original }) => constructCustomCell(original, original.id)
     },
     {
         Header: 'Business Name',
         id: 'company_name',
-        accessor: (data) => data.company_name
+        Cell: ({ original }) => constructCustomCell(original, original.company_name)
     },
     {
         Header: 'Website',
         id: 'website',
-        accessor: (data) => data.website
+        Cell: ({ original }) => constructCustomCell(original, original.website)
     },
     {
         Header: 'Address',
         id: 'address',
-        accessor: (data) => data.address
+        Cell: ({ original }) => constructCustomCell(original, original.address)
     },
     {
         Header: 'Province',
         id: 'province',
-        accessor: (data) => data.province
+        Cell: ({ original }) => constructCustomCell(original, original.province)
     },
     {
         Header: 'City',
         id: 'city',
-        accessor: (data) => data.city
+        Cell: ({ original }) => constructCustomCell(original, original.city)
     },
     {
         Header: 'Postal Code',
         id: 'postal_code',
-        accessor: (data) => data.postal_code
+        Cell: ({ original }) => constructCustomCell(original, original.postal_code)
     },
 ];
 

@@ -11,6 +11,6 @@ const mapStateToProps = (state) => ({
 const actions = {
     fetchApiData,
     setSelectedEntityId
-}
+};
 
 export default connect(mapStateToProps, actions)(HomePageLayout);
